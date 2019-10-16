@@ -1,0 +1,141 @@
+﻿/*****************************************************************
+                      ASSIGNEMNT NO:B-4
+Problem Statement :- Implement Map reduces operation with suitable example using MongoDB.
+Name- Harsh Maithia
+Roll No : 01
+CLASS: TE COMPUTER
+BATCH : TEB-1                 
+*****************************************************************/
+//EXAMPLE 1
+gescoe@gescoe-OptiPlex-3010:~$ mongo
+MongoDB shell version: 2.6.9
+connecting to: test
+QUERY : > use orders
+OUTPUT:	switched to db orders
+QUERY : > db.order.insert([{"cust_id":"A123",'amount':500,'status':'A'},{"cust_id":"A123",'amount':250,'status':"A"},{'cust_id':'B221','amount':200,'status':'A'},{"cust_id":'A123','amount':300,'status':'D'}])
+OUTPUT:	BulkWriteResult({
+		"writeErrors" : [ ],
+		"writeConcernErrors" : [ ],
+		"nInserted" : 4,
+		"nUpserted" : 0,
+		"nMatched" : 0,
+		"nModified" : 0,
+		"nRemoved" : 0,
+		"upserted" : [ ]
+	})
+
+QUERY : > db.order.find().pretty()
+OUTPUT:	{
+		"_id" : ObjectId("59b8e752a7a6867df2b5f248"),
+		"cust_id" : "A123",
+		"amount" : 500,
+		"status" : "A"
+	}
+	{
+		"_id" : ObjectId("59b8e752a7a6867df2b5f249"),
+		"cust_id" : "A123",
+		"amount" : 250,
+		"status" : "A"
+	}
+	{
+		"_id" : ObjectId("59b8e752a7a6867df2b5f24a"),
+		"cust_id" : "B221",
+		"amount" : 200,
+		"status" : "A"
+	}
+	{
+		"_id" : ObjectId("59b8e752a7a6867df2b5f24b"),
+		"cust_id" : "A123",
+		"amount" : 300,
+		"status" : "D"
+	}
+
+QUERY : > db.order.mapReduce(function() { emit(this.cust_id,this.amount); },function(key,values){return Array.sum(values)},{query:{status:"A"},out:"order_totals"} )
+OUTPUT:	{
+		"result" : "order_totals",
+		"timeMillis" : 5,
+		"counts" : {
+			"input" : 3,
+			"emit" : 3,
+			"reduce" : 1,
+			"output" : 2
+		},
+		"ok" : 1
+	}
+
+QUERY : > db.order_totals.find()
+OUTPUT:	{ "_id" : "A123", "value" : 750 }
+	{ "_id" : "B221", "value" : 200 }
+
+//EXAMPLE 2
+QUERY : > db.stud.insert([{'roll_no':1,'year':'first','marks':30},{'roll_no':2,'year':'first','marks':40},{'roll_no':3,'year':'first','marks':20},{'roll_no':2,'year':'first','marks':12},{'roll_no':3,'year':'second','marks':35},{'roll_no':2,'year':'second','marks':23}])
+OUTPUT:	BulkWriteResult({
+		"writeErrors" : [ ],
+		"writeConcernErrors" : [ ],
+		"nInserted" : 6,
+		"nUpserted" : 0,
+		"nMatched" : 0,
+		"nModified" : 0,
+		"nRemoved" : 0,
+		"upserted" : [ ]
+	})
+
+QUERY : > db.stud.find().pretty()
+OUTPUT:	{
+		"_id" : ObjectId("59b8f29c61be66b505beb980"),
+		"roll_no" : 1,
+		"year" : "first",
+		"marks" : 30
+	}
+	{
+		"_id" : ObjectId("59b8f29c61be66b505beb981"),
+		"roll_no" : 2,
+		"year" : "first",
+		"marks" : 40
+	}
+	{
+		"_id" : ObjectId("59b8f29c61be66b505beb982"),
+		"roll_no" : 3,
+		"year" : "first",
+		"marks" : 20
+	}
+	{
+		"_id" : ObjectId("59b8f29c61be66b505beb983"),
+		"roll_no" : 2,
+		"year" : "first",
+		"marks" : 12
+	}
+	{
+		"_id" : ObjectId("59b8f29c61be66b505beb984"),
+		"roll_no" : 3,
+		"year" : "second",
+		"marks" : 35
+	}
+	{
+		"_id" : ObjectId("59b8f29c61be66b505beb985"),
+		"roll_no" : 2,
+		"year" : "second",
+		"marks" : 23
+	}
+
+QUERY : > db.stud.mapReduce(function() { emit(this.roll_no,this.marks); },function(key,values){return Array.sum(values)},{query:{year:"first"},out:"marks_totals"} )
+OUTPUT:	{
+		"result" : "marks_totals",
+		"timeMillis" : 5,
+		"counts" : {
+			"input" : 4,
+			"emit" : 4,
+			"reduce" : 1,
+			"output" : 3
+		},
+		"ok" : 1
+	}	
+	
+QUERY : > db.marks_totals.find()
+OUTPUT:	{ "_id" : 1, "value" : 30 }
+	{ "_id" : 2, "value" : 52 }
+	{ "_id" : 3, "value" : 20 }
+
+
+
+

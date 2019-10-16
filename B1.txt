@@ -1,0 +1,229 @@
+/*
+Name- Harsh Maithia
+Roll No : 01
+CLASS: TE COMPUTER
+BATCH: TEB-1
+PROBLEM STATEMENT:
+Study of Open Source NOSQL Database: MongoDB (Installation, Basic CRUD operations,
+Execution)
+*/
+
+//Create Database
+ > use GESCOE
+switched to db GESCOE
+ > db
+ shruti
+ 
+
+                      //DELETING DATABASE 
+ > db.dropDatabase();
+ { "dropped" : "GESCOE", "ok" : 1 }
+ > show dbs
+	Goverment  0.078GB
+	MY         0.078GB
+	P5         0.078GB
+	PL1        0.078GB
+	Priya      0.078GB
+	Sac        0.078GB
+	T30        0.078GB
+	T83        0.078GB
+	
+                       //CREATE COLLECTION IN MongoDB 
+ > use GESCOE
+ switched to db GESCOE
+ > db.createCollection("student")
+ { "ok" : 1 }
+ > db.mongo1.insert({"prac":1,'name':'perform CRUD operations'})
+ WriteResult({ "nInserted" : 1 })
+ > show collections
+	student
+	mongo1
+	system.indexes
+
+
+                             //Drop collection 
+QUERY : > db.mongo1.drop()
+OUTPUT: true
+QUERY : > show collections
+OUTPUT:	student
+	system.indexes
+
+                            //INSERTING DOCUMENT INTO COLLECTION 
+
+QUERY : > db.student.insert({"PracNo":1,"Title":"Intro to SQL",'DBName':'sql'})
+OUTPUT=>WriteResult({ "nInserted" : 1 })
+QUERY : > db.student.insert([{'PracNo':2,'Title':'DDL operations on table','DBName':'sql'},{'PracNo':3,'Name':'Create stored procedure and function','DBName':'Pl/SQL'}])
+OUTPUT=>BulkWriteResult({
+		"writeErrors" : [ ],
+		"writeConcernErrors" : [ ],
+		"nInserted" : 2,
+		"nUpserted" : 0,
+		"nMatched" : 0,
+		"nModified" : 0,
+		"nRemoved" : 0,
+		"upserted" : [ ]
+	})
+QUERY : > db.student.insert({"PracNo":4,"Title":"Intro to mongoDB",'DBName':'mongoDB'})
+OUTPUT: WriteResult({ "nInserted" : 1 })
+
+
+                       //RETRIVING DOCUMENT FROM COLLECTION 
+
+
+QUERY : > db.student.find()
+OUTPUT:	{ "_id" : ObjectId("59a6728da1f9a48c00e60f0c"), "PracNo" : 1, "Title" : "Intro to SQL", "DBName" : "sql" }
+	{ "_id" : ObjectId("59a6737ea1f9a48c00e60f0d"), "PracNo" : 2, "Title" : "DDL operations on table", "DBName" : "sql" }
+	{ "_id" : ObjectId("59a6737ea1f9a48c00e60f0e"), "PracNo" : 3, "Name" : "Create stored procedure and function", "DBName" : "Pl/SQL" }
+	{ "_id" : ObjectId("59a673dfa1f9a48c00e60f0f"), "PracNo" : 4, "Title" : "Intro to mongoDB", "DBName" : "mongoDB" }
+
+QUERY : > db.student.find().pretty()
+OUTPUT:	{
+		"_id" : ObjectId("59a6728da1f9a48c00e60f0c"),
+		"PracNo" : 1,
+		"Title" : "Intro to SQL",
+		"DBName" : "sql"
+	}
+	{
+		"_id" : ObjectId("59a6737ea1f9a48c00e60f0d"),
+		"PracNo" : 2,
+		"Title" : "DDL operations on table",
+		"DBName" : "sql"
+	}
+	{
+		"_id" : ObjectId("59a6737ea1f9a48c00e60f0e"),
+		"PracNo" : 3,
+		"Name" : "Create stored procedure and function",
+		"DBName" : "Pl/SQL"
+	}
+	{
+		"_id" : ObjectId("59a673dfa1f9a48c00e60f0f"),
+		"PracNo" : 4,
+		"Title" : "Intro to mongoDB",
+		"DBName" : "mongoDB"
+	}
+
+QUERY : > db.student.find({'DBName':'sql'}).pretty()
+OUTPUT:	{
+		"_id" : ObjectId("59a6728da1f9a48c00e60f0c"),
+		"PracNo" : 1,
+		"Title" : "Intro to SQL",
+		"DBName" : "sql"
+	}
+	{
+		"_id" : ObjectId("59a6737ea1f9a48c00e60f0d"),
+		"PracNo" : 2,
+		"Title" : "DDL operations on table",
+		"DBName" : "sql"
+	}
+
+QUERY : > db.student.find({'PracNo':{$ne:2}}).pretty()
+OUTPUT:	{
+		"_id" : ObjectId("59a6728da1f9a48c00e60f0c"),
+		"PracNo" : 1,
+		"Title" : "Intro to SQL",
+		"DBName" : "sql"
+	}
+	{
+		"_id" : ObjectId("59a6737ea1f9a48c00e60f0e"),
+		"PracNo" : 3,
+		"Name" : "Create stored procedure and function",
+		"DBName" : "Pl/SQL"
+	}
+	{
+		"_id" : ObjectId("59a673dfa1f9a48c00e60f0f"),
+		"PracNo" : 4,
+		"Title" : "Intro to mongoDB",
+		"DBName" : "mongoDB"
+	}
+
+QUERY : > db.student.find({'PracNo':{$gte:2}}).pretty()
+OUTPUT:	{
+		"_id" : ObjectId("59a6737ea1f9a48c00e60f0d"),
+		"PracNo" : 2,
+		"Title" : "DDL operations on table",
+		"DBName" : "sql"
+	}
+	{
+		"_id" : ObjectId("59a6737ea1f9a48c00e60f0e"),
+		"PracNo" : 3,
+		"Name" : "Create stored procedure and function",
+		"DBName" : "Pl/SQL"
+	}
+	{
+		"_id" : ObjectId("59a673dfa1f9a48c00e60f0f"),
+		"PracNo" : 4,
+		"Title" : "Intro to mongoDB",
+		"DBName" : "mongoDB"
+	}
+
+
+                            //UPDATING DOCUMENT 
+
+
+QUERY : > db.student.update({'Title':'DDL operations on table'},{$set:{'Title':'DDl opreations on table,index,view'}})
+OUTPUT: WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+QUERY : > db.student.find().pretty()
+OUTPUT:	{
+		"_id" : ObjectId("59a6728da1f9a48c00e60f0c"),
+		"PracNo" : 1,
+		"Title" : "Intro to SQL",
+		"DBName" : "sql"
+	}
+	{
+		"_id" : ObjectId("59a6737ea1f9a48c00e60f0d"),
+		"PracNo" : 2,
+		"Title" : "DDl opreations on table,index,view",
+		"DBName" : "sql"
+	}
+	{
+		"_id" : ObjectId("59a6737ea1f9a48c00e60f0e"),
+		"PracNo" : 3,
+		"Name" : "Create stored procedure and function",
+		"DBName" : "Pl/SQL"
+	}
+	{
+		"_id" : ObjectId("59a673dfa1f9a48c00e60f0f"),
+		"PracNo" : 4,
+		"Title" : "Intro to mongoDB",
+		"DBName" : "mongoDB"
+	}
+
+                            //DELETE DOCUMENT 
+
+QUERY : > db.student.remove({'PracNo':4})
+OUTPUT: WriteResult({ "nRemoved" : 1 })
+QUERY : > db.student.find().pretty()
+OUTPUT:	{
+		"_id" : ObjectId("59a6728da1f9a48c00e60f0c"),
+		"PracNo" : 1,
+		"Title" : "Intro to SQL",
+		"DBName" : "sql"
+	}
+	{
+		"_id" : ObjectId("59a6737ea1f9a48c00e60f0d"),
+		"PracNo" : 2,
+		"Title" : "DDl opreations on table,index,view",
+		"DBName" : "sql"
+	}
+	{
+		"_id" : ObjectId("59a6737ea1f9a48c00e60f0e"),
+		"PracNo" : 3,
+		"Name" : "Create stored procedure and function",
+		"DBName" : "Pl/SQL"
+	}
+
+QUERY : > db.student.remove({'DBName':'sql'},1)
+OUTPUT: WriteResult({ "nRemoved" : 1 })
+QUERY : > db.student.find().pretty()
+OUTPUT:	{
+		"_id" : ObjectId("59a6737ea1f9a48c00e60f0d"),
+		"PracNo" : 2,
+		"Title" : "DDl opreations on table,index,view",
+		"DBName" : "sql"
+	}
+	{
+		"_id" : ObjectId("59a6737ea1f9a48c00e60f0e"),
+		"PracNo" : 3,
+		"Name" : "Create stored procedure and function",
+		"DBName" : "Pl/SQL"
+	}

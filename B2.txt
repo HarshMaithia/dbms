@@ -1,0 +1,226 @@
+﻿********************************************************************************
+				ASSIGNMENT NO: B-2
+Problem Statement : Design and Develop MongoDB Queries using CRUD operations. (Use CRUD  operations, SAVE method, logical operators)
+Name- Harsh Maithia
+Roll No : 01
+Batch : TEB-1
+
+> use supermarket
+switched to db supermarket
+> db
+supermarket
+
+> db.supermarket.insert([{"Product ID":1,"Product Name:":"Bottle","Price":90}])
+BulkWriteResult({
+	"writeErrors" : [ ],
+	"writeConcernErrors" : [ ],
+	"nInserted" : 1,
+	"nUpserted" : 0,
+	"nMatched" : 0,
+	"nModified" : 0,
+	"nRemoved" : 0,
+	"upserted" : [ ]
+})
+> db.supermarket.insert([{"Product ID":2,"Product Name:":"Bag","Price":550}])
+BulkWriteResult({
+	"writeErrors" : [ ],
+	"writeConcernErrors" : [ ],
+	"nInserted" : 1,
+	"nUpserted" : 0,
+	"nMatched" : 0,
+	"nModified" : 0,
+	"nRemoved" : 0,
+	"upserted" : [ ]
+})
+> db.supermarket.insert([{"Product ID":3,"Product Name:":"Jeans","Price":600}])
+BulkWriteResult({
+	"writeErrors" : [ ],
+	"writeConcernErrors" : [ ],
+	"nInserted" : 1,
+	"nUpserted" : 0,
+	"nMatched" : 0,
+	"nModified" : 0,
+	"nRemoved" : 0,
+	"upserted" : [ ]
+})
+
+                            SAVE METHOD
+
+> db.supermarket.save({'Product ID':4,'Product Name':'Shirt','Price':650})
+WriteResult({ "nInserted" : 1 })
+> db.supermarket.find().pretty()
+{
+	"_id" : ObjectId("59d71e10b64bb07e83a1d2ff"),
+	"Product ID" : 2,
+	"Product Name:" : "Bag",
+	"Price" : 550,
+	"Product Name" : "Vintage Bag"
+}
+{
+	"_id" : ObjectId("59d71e21b64bb07e83a1d300"),
+	"Product ID" : 3,
+	"Product Name:" : "Jeans",
+	"Price" : 600
+}
+{
+	"_id" : ObjectId("59d721f7b44e0aa3ef2a039c"),
+	"Product ID" : 1,
+	"Product Name:" : "Bottle",
+	"Price" : 90
+}
+{
+	"_id" : ObjectId("59d72257b44e0aa3ef2a039d"),
+	"id" : ObjectId("59d71e21b64bb07e83a1d300")
+}
+{
+	"_id" : ObjectId("59d723b5b44e0aa3ef2a039f"),
+	"Product ID" : 4,
+	"Product Name" : "Shirt",
+	"Price" : 650
+}
+
+                                       EQUALITY
+
+> db.supermarket.find({"Price":650}).pretty()
+{
+	"_id" : ObjectId("59d723b5b44e0aa3ef2a039f"),
+	"Product ID" : 4,
+	"Product Name" : "Shirt",
+	"Price" : 650
+}
+
+                             LESS THAN EQUAL TO
+
+> db.supermarket.find({"Price":{$lte:600}}).pretty()
+{
+	"_id" : ObjectId("59d71e10b64bb07e83a1d2ff"),
+	"Product ID" : 2,
+	"Product Name:" : "Bag",
+	"Price" : 550,
+	"Product Name" : "Vintage Bag"
+}
+{
+	"_id" : ObjectId("59d71e21b64bb07e83a1d300"),
+	"Product ID" : 3,
+	"Product Name:" : "Jeans",
+	"Price" : 600
+}
+{
+	"_id" : ObjectId("59d721f7b44e0aa3ef2a039c"),
+	"Product ID" : 1,
+	"Product Name:" : "Bottle",
+	"Price" : 90
+}
+
+                                LESS THAN
+
+> db.supermarket.find({"Price":{$lt:600}}).pretty()
+{
+	"_id" : ObjectId("59d71e10b64bb07e83a1d2ff"),
+	"Product ID" : 2,
+	"Product Name:" : "Bag",
+	"Price" : 550,
+	"Product Name" : "Vintage Bag"
+}
+{
+	"_id" : ObjectId("59d721f7b44e0aa3ef2a039c"),
+	"Product ID" : 1,
+	"Product Name:" : "Bottle",
+	"Price" : 90
+}
+
+                           GREATER THAN
+
+> db.supermarket.find({"Price":{$gt:500}}).pretty()
+{
+	"_id" : ObjectId("59d71e10b64bb07e83a1d2ff"),
+	"Product ID" : 2,
+	"Product Name:" : "Bag",
+	"Price" : 550,
+	"Product Name" : "Vintage Bag"
+}
+{
+	"_id" : ObjectId("59d71e21b64bb07e83a1d300"),
+	"Product ID" : 3,
+	"Product Name:" : "Jeans",
+	"Price" : 600
+}
+{
+	"_id" : ObjectId("59d723b5b44e0aa3ef2a039f"),
+	"Product ID" : 4,
+	"Product Name" : "Shirt",
+	"Price" : 650
+}
+
+                          GREATER THAN EQUAL
+
+> db.supermarket.find({"Price":{$gte:600}}).pretty()
+{
+	"_id" : ObjectId("59d71e21b64bb07e83a1d300"),
+	"Product ID" : 3,
+	"Product Name:" : "Jeans",
+	"Price" : 600
+}
+{
+	"_id" : ObjectId("59d723b5b44e0aa3ef2a039f"),
+	"Product ID" : 4,
+	"Product Name" : "Shirt",
+	"Price" : 650
+}
+
+                           NOT EQUAL TO
+
+> db.supermarket.find({"Price":{$ne:550}}).pretty()
+{
+	"_id" : ObjectId("59d71e21b64bb07e83a1d300"),
+	"Product ID" : 3,
+	"Product Name:" : "Jeans",
+	"Price" : 600
+}
+{
+	"_id" : ObjectId("59d721f7b44e0aa3ef2a039c"),
+	"Product ID" : 1,
+	"Product Name:" : "Bottle",
+	"Price" : 90
+}
+{
+	"_id" : ObjectId("59d72257b44e0aa3ef2a039d"),
+	"id" : ObjectId("59d71e21b64bb07e83a1d300")
+}
+{
+	"_id" : ObjectId("59d723b5b44e0aa3ef2a039f"),
+	"Product ID" : 4,
+	"Product Name" : "Shirt",
+	"Price" : 650
+}
+
+
+                                    AND
+
+> db.supermarket.find({$and:[{'Product ID':2},{'Price':550}]}).pretty()
+{
+	"_id" : ObjectId("59d71e10b64bb07e83a1d2ff"),
+	"Product ID" : 2,
+	"Product Name:" : "Bag",
+	"Price" : 550,
+	"Product Name" : "Vintage Bag"
+}
+
+                                            OR
+
+> db.supermarket.find({$or:[{'Product ID':2},{'Price':90}]}).pretty()
+{
+	"_id" : ObjectId("59d71e10b64bb07e83a1d2ff"),
+	"Product ID" : 2,
+	"Product Name:" : "Bag",
+	"Price" : 550,
+	"Product Name" : "Vintage Bag"
+}
+{
+	"_id" : ObjectId("59d721f7b44e0aa3ef2a039c"),
+	"Product ID" : 1,
+	"Product Name:" : "Bottle",
+	"Price" : 90
+}
+
+

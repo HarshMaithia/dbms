@@ -1,0 +1,318 @@
+/*
+Name- Harsh Maithia
+Roll No : 01
+Class : TE COMPUTER
+Batch: TEB-1
+PROBLEM STATEMENT:-
+A4.=>Design at least 10 SQL queries for suitable database application using SQL DML statements:
+all types of Join, Sub-Query and View*/
+mysql> use employe
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_employe |
++-------------------+
+| empll             |
+| employee          |
+| empqua            |
+| empqualification  |
+| empqualification1 |
+| mrg               |
+| mrge              |
+| myview            |
+| view1             |
++-------------------+
+9 rows in set (0.00 sec)
+
+mysql> select * from employee;
++-------+---------+------------+------------+------------+--------+--------------+------------+----------+
+| empno | empname | empaddr    | emp_phno   | emp_deptno | salary | emp_deptname | hiredate   | city     |
++-------+---------+------------+------------+------------+--------+--------------+------------+----------+
+|     1 | monu    | dadar_20   | 1234567890 |        111 |  10000 | IT           | 2001-12-10 | Nasik    |
+|     2 | chetana | panchvati  | 1234567890 |        222 |  15000 | IT           | 2002-12-10 | Nasik    |
+|     3 | ravi    | adgaon     | 1234567890 |        333 |  20000 | IT           | 2002-11-22 | Nasik    |
+|     4 | ram     | borgarh_1  | 1234567890 |        444 |  11000 | COMPUTER     | 2018-07-16 | Banglore |
+|     5 | monali  | shalimar_1 | 1234567890 |        555 |  25000 | COMPUTER     | 2018-07-13 | Nasik    |
+|     6 | dev     | NULL       |       NULL |       NULL |   1200 | NULL         | NULL       | NULL     |
+|     6 | NULL    | NULL       |  976453242 |       NULL |   NULL | NULL         | NULL       | chennai  |
++-------+---------+------------+------------+------------+--------+--------------+------------+----------+
+7 rows in set (0.00 sec)
+
+mysql> create table dept(empno int,dept_id int);
+Query OK, 0 rows affected (0.28 sec)
+
+mysql> insert into dept(empno,dept_id) values(1,100),(2,200),(3,300);
+Query OK, 3 rows affected (0.05 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from dept;
++-------+---------+
+| empno | dept_id |
++-------+---------+
+|     1 |     100 |
+|     2 |     200 |
+|     3 |     300 |
++-------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select * from employee UNION select * from dept;
+ERROR 1222 (21000): The used SELECT statements have a different number of columns
+mysql> select * from employe UNION select * from dept;
+ERROR 1146 (42S02): Table 'employe.employe' doesn't exist
+mysql> select * from employee union select * from dept;
+ERROR 1222 (21000): The used SELECT statements have a different number of columns
+mysql> select dept.dept_id,emloyee.empno,employee.empname,employee.city from employee inner join dept on employee.empno=dept.empno;
+ERROR 1054 (42S22): Unknown column 'emloyee.empno' in 'field list'
+mysql> select dept.dept_id,employee.empno,employee.empname,employee.city from employee inner join dept on employee.empno=dept.empno;
++---------+-------+---------+-------+
+| dept_id | empno | empname | city  |
++---------+-------+---------+-------+
+|     100 |     1 | monu    | Nasik |
+|     200 |     2 | chetana | Nasik |
+|     300 |     3 | ravi    | Nasik |
++---------+-------+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select employee.empname,dept.dept_id from employee left join dept on dept.empno=employee.empno;
++---------+---------+
+| empname | dept_id |
++---------+---------+
+| monu    |     100 |
+| chetana |     200 |
+| ravi    |     300 |
+| ram     |    NULL |
+| monali  |    NULL |
+| dev     |    NULL |
+| NULL    |    NULL |
++---------+---------+
+7 rows in set (0.00 sec)
+
+mysql> select employee.city,dept.dept_id from employee right join dept on employee.empno=dept.empno;
++-------+---------+
+| city  | dept_id |
++-------+---------+
+| Nasik |     100 |
+| Nasik |     200 |
+| Nasik |     300 |
++-------+---------+
+3 rows in set (0.01 sec)
+
+mysql> select employee.city,dept.dept_id from employee right join dept on dept.empno=employee.empno;
++-------+---------+
+| city  | dept_id |
++-------+---------+
+| Nasik |     100 |
+| Nasik |     200 |
+| Nasik |     300 |
++-------+---------+
+3 rows in set (0.01 sec)
+
+mysql> select employee.empname,dept.dept_id from employee right join dept on dept.empno=employee.empno;
++---------+---------+
+| empname | dept_id |
++---------+---------+
+| monu    |     100 |
+| chetana |     200 |
+| ravi    |     300 |
++---------+---------+
+3 rows in set (0.00 sec)
+                                                      JOIN
+mysql> select employee.empname,employee.city,employee.salary,dept.dept_id from employee left join dept on employee.empno=dept.empno
+    -> union
+    -> select employee.empname,employee.city,employee.salary,dept.dept_id from employee right join dept on employee.empno=dept.empno
+    -> union
+    -> select employee.empname,employee.city,employee.salary,dept.dept_id from employee inner join dept on employee.empno=dept.empno;
++---------+----------+--------+---------+
+| empname | city     | salary | dept_id |
++---------+----------+--------+---------+
+| monu    | Nasik    |  10000 |     100 |
+| chetana | Nasik    |  15000 |     200 |
+| ravi    | Nasik    |  20000 |     300 |
+| ram     | Banglore |  11000 |    NULL |
+| monali  | Nasik    |  25000 |    NULL |
+| dev     | NULL     |   1200 |    NULL |
+| NULL    | chennai  |   NULL |    NULL |
++---------+----------+--------+---------+
+7 rows in set (0.00 sec)
+
+mysql> create table student(rollno int,name varchar(20),age int)
+    -> ;
+Query OK, 0 rows affected (0.33 sec)
+
+mysql> insert into student(rollno,name,age) values(1,'monali',20),(2,'aksh',19),(3,'raj',17);
+Query OK, 3 rows affected (0.04 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from student;
++--------+--------+------+
+| rollno | name   | age  |
++--------+--------+------+
+|      1 | monali |   20 |
+|      2 | aksh   |   19 |
+|      3 | raj    |   17 |
++--------+--------+------+
+3 rows in set (0.00 sec)
+
+mysql> create table course(rollno int,name varchar(20),age int);
+Query OK, 0 rows affected (0.34 sec)
+
+mysql> insert into course(rollno,name,age) values(1,'monali',20),(3,'raj',17);
+Query OK, 2 rows affected (0.04 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from course;
++--------+--------+------+
+| rollno | name   | age  |
++--------+--------+------+
+|      1 | monali |   20 |
+|      3 | raj    |   17 |
++--------+--------+------+
+2 rows in set (0.00 sec)
+
+mysql> select * from student union select * from course;
++--------+--------+------+
+| rollno | name   | age  |
++--------+--------+------+
+|      1 | monali |   20 |
+|      2 | aksh   |   19 |
+|      3 | raj    |   17 |
++--------+--------+------+
+3 rows in set (0.00 sec)
+
+mysql> select * from student union all select * from course;
++--------+--------+------+
+| rollno | name   | age  |
++--------+--------+------+
+|      1 | monali |   20 |
+|      2 | aksh   |   19 |
+|      3 | raj    |   17 |
+|      1 | monali |   20 |
+|      3 | raj    |   17 |
++--------+--------+------+
+5 rows in set (0.00 sec)
+                                    SUB-QUERY
+mysql> select * from student where (rollno,name,age) not in (select * from course);
++--------+------+------+
+| rollno | name | age  |
++--------+------+------+
+|      2 | aksh |   19 |
++--------+------+------+
+1 row in set (0.00 sec)
+mysql> select * from student where (rollno,name,age) in (select * from course);
++--------+--------+------+
+| rollno | name   | age  |
++--------+--------+------+
+|      1 | monali |   20 |
+|      3 | raj    |   17 |
++--------+--------+------+
+2 rows in set (0.00 sec)
+
+mysql> 
+/ VIEWS  
+ /*Creating similar table as above*/
+
+mysql> create table student(Roll_no int primary key,Name varchar(20),Branch varchar(15),Percentage decimal(18,2));
+Query OK, 0 rows affected (0.25 sec)
+
+mysql> insert into student values (1,'Reema','Mechanical',70.23);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into student values (2,'Gauri','Computer',82.95);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into student values (3,'Shweta','Computer',80.12);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into student values (4,'Radhya','Civil',75.00);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into student values (5,'Karishma','Electrical',62.31);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into student values (6,'Amruta','Civil',76.45);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from student;
++---------+----------+------------+------------+
+| Roll_no | Name     | Branch     | Percentage |
++---------+----------+------------+------------+
+|       1 | Reema    | Mechanical |      70.23 |
+|       2 | Gauri    | Computer   |      82.95 |
+|       3 | Shweta   | Computer   |      80.12 |
+|       4 | Radhya   | Civil      |      75.00 |
+|       5 | Karishma | Electrical |      62.31 |
+|       6 | Amruta   | Civil      |      76.45 |
++---------+----------+------------+------------+
+6 rows in set (0.00 sec)
+
+                                     CREATE VIEW
+
+mysql> create view student_view as select Roll_no,Name from student;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> select * from student_view;
++---------+----------+
+| Roll_no | Name     |
++---------+----------+
+|       1 | Reema    |
+|       2 | Gauri    |
+|       3 | Shweta   |
+|       4 | Radhya   |
+|       5 | Karishma |
+|       6 | Amruta   |
++---------+----------+
+6 rows in set (0.00 sec)
+
+mysql> create view student_view1 as select * from student where Percentage >= 75;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> select * from student_view1;
++---------+--------+----------+------------+
+| Roll_no | Name   | Branch   | Percentage |
++---------+--------+----------+------------+
+|       2 | Gauri  | Computer |      82.95 |
+|       3 | Shweta | Computer |      80.12 |
+|       6 | Amruta | Civil    |      76.45 |
+|      12 | Radhya | Civil    |      75.00 |
++---------+--------+----------+------------+
+4 rows in set (0.01 sec)
+
+                                   UPDATE VIEW
+
+mysql> update student_view set Roll_no = 12 where Name = "Radhya";
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from student_view;
++---------+----------+
+| Roll_no | Name     |
++---------+----------+
+|       1 | Reema    |
+|       2 | Gauri    |
+|       3 | Shweta   |
+|       5 | Karishma |
+|       6 | Amruta   |
+|      12 | Radhya   |
++---------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student;
++---------+----------+------------+------------+
+| Roll_no | Name     | Branch     | Percentage |
++---------+----------+------------+------------+
+|       1 | Reema    | Mechanical |      70.23 |
+|       2 | Gauri    | Computer   |      82.95 |
+|       3 | Shweta   | Computer   |      80.12 |
+|       5 | Karishma | Electrical |      62.31 |
+|       6 | Amruta   | Civil      |      76.45 |
+|      12 | Radhya   | Civil      |      75.00 |
++---------+----------+------------+------------+
+6 rows in set (0.00 sec)
+
+                                  DROP VIEW
+
+mysql> drop view student_view;
+Query OK, 0 rows affected (0.00 sec)  VIEWS 

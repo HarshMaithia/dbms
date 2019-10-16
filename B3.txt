@@ -1,0 +1,171 @@
+﻿********************************************************************************
+				ASSIGNMENT NO: B-3
+Problem Statement : Implement aggregation and indexing with suitable example using MongoDB.
+Name- Harsh Maithia
+Roll No : 01
+CALSS: TE COMPUTER
+Batch : TEB-1  
+                                          AGGREGATION
+> db.student.insert([{"Roll No":1,"Name":"Sana","Branch":"Computer","Marks":80}])
+BulkWriteResult({
+	"writeErrors" : [ ],
+	"writeConcernErrors" : [ ],
+	"nInserted" : 1,
+	"nUpserted" : 0,
+	"nMatched" : 0,
+	"nModified" : 0,
+	"nRemoved" : 0,
+	"upserted" : [ ]
+})
+> db.student.insert([{"Roll No":2,"Name":"Gauri","Branch":"Computer","Marks":85}])
+BulkWriteResult({
+	"writeErrors" : [ ],
+	"writeConcernErrors" : [ ],
+	"nInserted" : 1,
+	"nUpserted" : 0,
+	"nMatched" : 0,
+	"nModified" : 0,
+	"nRemoved" : 0,
+	"upserted" : [ ]
+})
+> db.student.insert([{"Roll No":3,"Name":"Shweta","Branch":"Civil","Marks":75}])
+
+BulkWriteResult({
+	"writeErrors" : [ ],
+	"writeConcernErrors" : [ ],
+	"nInserted" : 1,
+	"nUpserted" : 0,
+	"nMatched" : 0,
+	"nModified" : 0,
+	"nRemoved" : 0,
+	"upserted" : [ ]
+})
+> db.student.insert([{"Roll No":4,"Name":"Radha","Branch":"Electrical","Marks":60}])
+BulkWriteResult({
+	"writeErrors" : [ ],
+	"writeConcernErrors" : [ ],
+	"nInserted" : 1,
+	"nUpserted" : 0,
+	"nMatched" : 0,
+	"nModified" : 0,
+	"nRemoved" : 0,
+	"upserted" : [ ]
+})
+
+> db.student.find().pretty()
+{
+	"_id" : ObjectId("59d727bb373dae8237d8e49e"),
+	"Roll No" : 1,
+	"Name" : "Sana",
+	"Branch" : "Computer",
+	"Marks" : 80
+}
+{
+	"_id" : ObjectId("59d727cd373dae8237d8e49f"),
+	"Roll No" : 2,
+	"Name" : "Gauri",
+	"Branch" : "Computer",
+	"Marks" : 85
+}
+{
+	"_id" : ObjectId("59d727e3373dae8237d8e4a0"),
+	"Roll No" : 3,
+	"Name" : "Shweta",
+	"Branch" : "Civil",
+	"Marks" : 75
+}
+{
+	"_id" : ObjectId("59d727f7373dae8237d8e4a1"),
+	"Roll No" : 4,
+	"Name" : "Radha",
+	"Branch" : "Electrical",
+	"Marks" : 60
+}
+
+1) Sum()
+> db.student.aggregate([{$group:{_id:"$Branch",Sum:{$sum:"$Marks"}}}])
+{ "_id" : "Electrical", "Sum" : 60 }
+{ "_id" : "Civil", "Sum" : 75 }
+{ "_id" : "Computer", "Sum" : 165 }
+
+2)Avg() 
+> db.student.aggregate([{$group:{_id:"$Branch",Avg:{$avg:"$Marks"}}}])
+{ "_id" : "Electrical", "Avg" : 60 }
+{ "_id" : "Civil", "Avg" : 75 }
+{ "_id" : "Computer", "Avg" : 82.5 }
+
+3) Min() 
+> db.student.aggregate([{$group:{_id:"$Branch",Min:{$min:"$Marks"}}}])
+{ "_id" : "Electrical", "Min" : 60 }
+{ "_id" : "Civil", "Min" : 75 }
+{ "_id" : "Computer", "Min" : 80 }
+
+4) Max() 
+> db.student.aggregate([{$group:{_id:"$Branch",Max:{$max:"$Marks"}}}])
+{ "_id" : "Electrical", "Max" : 60 }
+{ "_id" : "Civil", "Max" : 75 }
+{ "_id" : "Computer", "Max" : 85 }
+
+5)Push()
+> db.student.aggregate([{$group:{_id:"$Branch",PUSH:{$push:"$Marks"}}}])
+{ "_id" : "Electrical", "PUSH" : [ 60 ] }
+{ "_id" : "Civil", "PUSH" : [ 75 ] }
+{ "_id" : "Computer", "PUSH" : [ 80, 85 ] }
+
+6)AddToSet()
+> db.student.aggregate([{$group:{_id:"$Branch",addtoset:{$addToSet:"$Marks"}}}])
+
+{ "_id" : "Electrical", "addtoset" : [ 60 ] }
+{ "_id" : "Civil", "addtoset" : [ 75 ] }
+{ "_id" : "Computer", "addtoset" : [ 85, 80 ] }
+
+7)first()
+> db.student.aggregate([{$group:{_id:"$Branch",First:{$first:"$Marks"}}}])
+{ "_id" : "Electrical", "First" : 60 }
+{ "_id" : "Civil", "First" : 75 }
+{ "_id" : "Computer", "First" : 80 }
+
+8)last()
+> db.student.aggregate([{$group:{_id:"$Branch",Last:{$last:"$Marks"}}}])
+{ "_id" : "Electrical", "Last" : 60 }
+{ "_id" : "Civil", "Last" : 75 }
+{ "_id" : "Computer", "Last" : 85 }
+                                            INDEXING
+
+> db.student.ensureIndex({"Roll No":1})
+{
+	"createdCollectionAutomatically" : false,
+	"numIndexesBefore" : 1,
+	"numIndexesAfter" : 2,
+	"ok" : 1
+}
+> db.student.getIndexes()
+[
+	{
+		"v" : 1,
+		"key" : {
+			"_id" : 1
+		},
+		"name" : "_id_",
+		"ns" : "supermarket.student"
+	},
+	{
+		"v" : 1,
+		"key" : {
+			"Roll No" : 1
+		},
+		"name" : "Roll No_1",
+		"ns" : "supermarket.student"
+	}
+]
+
+                                    CREATE INDEX
+
+> db.student.createIndex({"Roll No":2})
+{
+	"createdCollectionAutomatically" : false,
+	"numIndexesBefore" : 2,
+	"numIndexesAfter" : 3,
+	"ok" : 1
+}
+ 

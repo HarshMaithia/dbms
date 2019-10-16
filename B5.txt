@@ -1,0 +1,326 @@
+﻿/*****************************************************************                   
+                       ASSIGNMENT NO:B-5
+Problem Statement :- Design and Implement any 5 queries using MongoDB
+Name- Harsh Maithia
+Roll No : 01
+CLASS: TE COMPUTER	
+BATCH : TEB-1
+*******************************************************************/
+gescoe@gescoe-OptiPlex-3010:~$ mongo
+MongoDB shell version: 2.6.9
+connecting to: test
+> use TB
+switched to db TB
+1)CREATE COLLECTION
+
+QUERY:> db.createCollection("Stu1")
+OUTPUT:{ "ok" : 1 }
+
+2)INSERT INTO COLLECTION 
+
+QUERY:
+> db.stu1.insert([{"Rno":1,"Name":"Riya","Subject":"SEPM","Marks":40},{"Rno":2,"Name":"Sakshi","Subject":"DELD","Marks":50}])
+
+OUTPUT:
+BulkWriteResult({
+	"writeErrors" : [ ],
+	"writeConcernErrors" : [ ],
+	"nInserted" : 2,
+	"nUpserted" : 0,
+	"nMatched" : 0,
+	"nModified" : 0,
+	"nRemoved" : 0,
+	"upserted" : [ ]
+})
+QUERY:
+> db.stu1.insert([{"Rno":3,"Name":"Kruti","Subject":"SEPM","Marks":40},{"Rno":4,"Name":"Pallavi","Subject":"DELD","Marks":60}])
+
+OUTPUT:
+BulkWriteResult({
+	"writeErrors" : [ ],
+	"writeConcernErrors" : [ ],
+	"nInserted" : 2,
+	"nUpserted" : 0,
+	"nMatched" : 0,
+	"nModified" : 0,
+	"nRemoved" : 0,
+	"upserted" : [ ]
+})
+QUERY:
+> db.stu1.insert([{"Rno":5,"Name":"Saini","Subject":"COA","Marks":60},{"Rno":6,"Name":"Rahul","Subject":"COA","Marks":40}])
+
+OUTPUT:
+BulkWriteResult({
+	"writeErrors" : [ ],
+	"writeConcernErrors" : [ ],
+	"nInserted" : 2,
+	"nUpserted" : 0,
+	"nMatched" : 0,
+	"nModified" : 0,
+	"nRemoved" : 0,
+	"upserted" : [ ]
+})
+
+QUERY:
+> db.stu1.insert([{"Rno":7,"Name":"Sairaj","Subject":"DELD","Marks":30},{"Rno":8,"Name":"Miral","Subject":"SEPM","Marks":50}])
+OUTPUT:
+BulkWriteResult({
+	"writeErrors" : [ ],
+	"writeConcernErrors" : [ ],
+	"nInserted" : 2,
+	"nUpserted" : 0,
+	"nMatched" : 0,
+	"nModified" : 0,
+	"nRemoved" : 0,
+	"upserted" : [ ]
+})
+
+QUERY:
+> db.stu1.insert([{"Rno":9,"Name":"Shikha","Subject":"COA","Marks":50},{"Rno":10,"Name":"Kunal","Subject":"DELD","Marks":80}])
+OUTPUT:
+BulkWriteResult({
+	"writeErrors" : [ ],
+	"writeConcernErrors" : [ ],
+	"nInserted" : 2,
+	"nUpserted" : 0,
+	"nMatched" : 0,
+	"nModified" : 0,
+	"nRemoved" : 0,
+	"upserted" : [ ]
+})
+
+
+3)RETRIVING DATA FROM COLLECTION
+
+QUERY:
+> db.stu1.find().pretty()
+OUTPUT:
+{
+	"_id" : ObjectId("59a7c43dc59fad691d81b17e"),
+	"Rno" : 1,
+	"Name" : "Riya",
+	"Subject" : "SEPM",
+	"Marks" : 40
+}
+{
+	"_id" : ObjectId("59a7c43dc59fad691d81b17f"),
+	"Rno" : 2,
+	"Name" : "Sakshi",
+	"Subject" : "DELD",
+	"Marks" : 50
+}
+{
+	"_id" : ObjectId("59a7c46ac59fad691d81b180"),
+	"Rno" : 3,
+	"Name" : "Kruti",
+	"Subject" : "SEPM",
+	"Marks" : 40
+}
+{
+	"_id" : ObjectId("59a7c46ac59fad691d81b181"),
+	"Rno" : 4,
+	"Name" : "Pallavi",
+	"Subject" : "DELD",
+	"Marks" : 60
+}
+{
+	"_id" : ObjectId("59a7c492c59fad691d81b182"),
+	"Rno" : 5,
+	"Name" : "Saini",
+	"Subject" : "COA",
+	"Marks" : 60
+}
+{
+	"_id" : ObjectId("59a7c492c59fad691d81b183"),
+	"Rno" : 6,
+	"Name" : "Rahul",
+	"Subject" : "COA",
+	"Marks" : 40
+}
+{
+	"_id" : ObjectId("59a7c4c5c59fad691d81b184"),
+	"Rno" : 7,
+	"Name" : "Sairaj",
+	"Subject" : "DELD",
+	"Marks" : 30
+}
+{
+	"_id" : ObjectId("59a7c4c5c59fad691d81b185"),
+	"Rno" : 8,
+	"Name" : "Miral",
+	"Subject" : "SEPM",
+	"Marks" : 50
+}
+{
+	"_id" : ObjectId("59a7c508c59fad691d81b186"),
+	"Rno" : 9,
+	"Name" : "Shikha",
+	"Subject" : "COA",
+	"Marks" : 50
+}
+{
+	"_id" : ObjectId("59a7c508c59fad691d81b187"),
+	"Rno" : 10,
+	"Name" : "Kunal",
+	"Subject" : "DELD",
+	"Marks" : 80
+}
+
+4)UPDATE OPERATION
+
+QUERY:
+> db.Stu1.update({'Rno':10},{$set:{'Rno':12}})
+OUTPUT:
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+QUERY:
+> db.stu1.find().pretty()
+
+OUTPUT:
+{
+	"_id" : ObjectId("59a7c43dc59fad691d81b17e"),
+	"Rno" : 1,
+	"Name" : "Riya",
+	"Subject" : "SEPM",
+	"Marks" : 40
+}
+{
+	"_id" : ObjectId("59a7c43dc59fad691d81b17f"),
+	"Rno" : 2,
+	"Name" : "Sakshi",
+	"Subject" : "DELD",
+	"Marks" : 50
+}
+{
+	"_id" : ObjectId("59a7c46ac59fad691d81b180"),
+	"Rno" : 3,
+	"Name" : "Kruti",
+	"Subject" : "SEPM",
+	"Marks" : 40
+}
+{
+	"_id" : ObjectId("59a7c46ac59fad691d81b181"),
+	"Rno" : 4,
+	"Name" : "Pallavi",
+	"Subject" : "DELD",
+	"Marks" : 60
+}
+{
+	"_id" : ObjectId("59a7c492c59fad691d81b182"),
+	"Rno" : 5,
+	"Name" : "Saini",
+	"Subject" : "COA",
+	"Marks" : 60
+}
+{
+	"_id" : ObjectId("59a7c492c59fad691d81b183"),
+	"Rno" : 6,
+	"Name" : "Rahul",
+	"Subject" : "COA",
+	"Marks" : 40
+}
+{
+	"_id" : ObjectId("59a7c4c5c59fad691d81b184"),
+	"Rno" : 7,
+	"Name" : "Sairaj",
+	"Subject" : "DELD",
+	"Marks" : 30
+}
+{
+	"_id" : ObjectId("59a7c4c5c59fad691d81b185"),
+	"Rno" : 8,
+	"Name" : "Miral",
+	"Subject" : "SEPM",
+	"Marks" : 50
+}
+{
+	"_id" : ObjectId("59a7c508c59fad691d81b186"),
+	"Rno" : 9,
+	"Name" : "Shikha",
+	"Subject" : "COA",
+	"Marks" : 50
+}
+{
+	"_id" : ObjectId("59a7c508c59fad691d81b187"),
+	"Rno" : 12,
+	"Name" : "Kunal",
+	"Subject" : "DELD",
+	"Marks" : 80
+}
+
+
+5) REMOVE OPERATION
+
+QUERY:
+> db.STU1.remove({'Name':'Kunal'})
+
+OUTPUT:
+WriteResult({ "nRemoved" : 1 })
+
+QUERY:
+> db.stu1.find().pretty()
+
+OUTPUT:
+{
+	"_id" : ObjectId("59a7c43dc59fad691d81b17e"),
+	"Rno" : 1,
+	"Name" : "Riya",
+	"Subject" : "SEPM",
+	"Marks" : 40
+}
+{
+	"_id" : ObjectId("59a7c43dc59fad691d81b17f"),
+	"Rno" : 2,
+	"Name" : "Sakshi",
+	"Subject" : "DELD",
+	"Marks" : 50
+}
+{
+	"_id" : ObjectId("59a7c46ac59fad691d81b180"),
+	"Rno" : 3,
+	"Name" : "Kruti",
+	"Subject" : "SEPM",
+	"Marks" : 40
+}
+{
+	"_id" : ObjectId("59a7c46ac59fad691d81b181"),
+	"Rno" : 4,
+	"Name" : "Pallavi",
+	"Subject" : "DELD",
+	"Marks" : 60
+}
+{
+	"_id" : ObjectId("59a7c492c59fad691d81b182"),
+	"Rno" : 5,
+	"Name" : "Saini",
+	"Subject" : "COA",
+	"Marks" : 60
+}
+{
+	"_id" : ObjectId("59a7c492c59fad691d81b183"),
+	"Rno" : 6,
+	"Name" : "Rahul",
+	"Subject" : "COA",
+	"Marks" : 40
+}
+{
+	"_id" : ObjectId("59a7c4c5c59fad691d81b184"),
+	"Rno" : 7,
+	"Name" : "Sairaj",
+	"Subject" : "DELD",
+	"Marks" : 30
+}
+{
+	"_id" : ObjectId("59a7c4c5c59fad691d81b185"),
+	"Rno" : 8,
+	"Name" : "Miral",
+	"Subject" : "SEPM",
+	"Marks" : 50
+}
+{
+	"_id" : ObjectId("59a7c508c59fad691d81b186"),
+	"Rno" : 9,
+	"Name" : "Shikha",
+	"Subject" : "COA",
+	"Marks" : 50
+}
+
